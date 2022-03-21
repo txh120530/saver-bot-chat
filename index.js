@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackToken = process.env.SLACK_TOKEN;
-const expressPort = process.env.PORT || 5001;
+const port = process.env.PORT || 5001;
 
 
 const slackEvents = createEventAdapter(slackSigningSecret);
@@ -106,8 +106,8 @@ catch (error) {
 }
 }
 
-slackEvents.start(slackPort).then(() => {
-  console.log(`SlackEvents Server started on port ${slackPort}`)
+slackEvents.start(port).then(() => {
+  console.log(`SlackEvents Server started on port ${port}`)
 });
 
 slackEvents.on('error', console.error);
