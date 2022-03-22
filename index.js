@@ -52,7 +52,26 @@ function handleDisconnect() {
 
 handleDisconnect();
 
+const cleanString = (str) => {
+  let cleanString = str.replace('<@U033521BD5W>', "").replace(/`/g, "").trim();
+  return cleanString;
+}
 
+
+const getUserName = async (userId) => {
+
+  try {
+  // Call the users.info method using the WebClient
+  const result = await slackClient.users.info({
+    user: userId
+  });
+
+  return await ( result.user.profile.real_name_normalized)
+}
+catch (error) {
+  console.error(error);
+}
+}
 
 slackEvents.on('app_mention', (event) => {
   console.log(`Got message from user ${event.user}: ${event.text}`);
@@ -85,26 +104,7 @@ slackEvents.on('app_mention', (event) => {
 
 });
 
-const cleanString = (str) => {
-  let cleanString = str.replace('<@U033521BD5W>', "").replace(/`/g, "").trim();
-  return cleanString;
-}
 
-
-const getUserName = async (userId) => {
-
-  try {
-  // Call the users.info method using the WebClient
-  const result = await slackClient.users.info({
-    user: userId
-  });
-
-  return await ( result.user.profile.real_name_normalized)
-}
-catch (error) {
-  console.error(error);
-}
-}
 
 slackEvents.start(port).then(() => {
   console.log(`SlackEvents Server started on port ${port}`)
